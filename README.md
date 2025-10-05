@@ -1,2 +1,3 @@
 # ai-agent-code-reviewer
-General code reviewer
+
+General code reviewer agent

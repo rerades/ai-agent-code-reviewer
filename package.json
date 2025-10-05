@@ -1,0 +1,19 @@
+{
+  "type": "module",
+  "name": "ai-agent-code-reviewer",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.18.0",
+  "dependencies": {
+    "@ai-sdk/openai": "^2.0.42",
+    "ai": "^5.0.60",
+    "dotenv": "^17.2.3"
+  }
+}
