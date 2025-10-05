@@ -30,17 +30,20 @@ const calculateTotal = (price, tax) => {
 ### ✅ DO: Use Function Composition
 
 - Compose small, focused functions into larger ones
-- Use `pipe` and `compose` from crocks or ramda
+- Use `pipe` and `compose` from fp-ts or ramda
 
 ```javascript
-import { pipe, map, filter, reduce } from "crocks";
+import { pipe } from "fp-ts/function";
+import { map, filter, reduce } from "fp-ts/Array";
 
 // ✅ Good: Function composition
-const processData = pipe(
-  filter((x) => x > 0),
-  map((x) => x * 2),
-  reduce((acc, x) => acc + x, 0)
-);
+const processData = (data) =>
+  pipe(
+    data,
+    filter((x) => x > 0),
+    map((x) => x * 2),
+    reduce(0, (acc, x) => acc + x)
+  );
 
 // ❌ Bad: Imperative approach
 const processData = (data) => {
@@ -57,10 +60,10 @@ const processData = (data) => {
 ### ✅ DO: Use Currying and Partial Application
 
 - Create reusable functions through currying
-- Use `curry` from crocks for automatic currying
+- Use `curry` from fp-ts for automatic currying
 
 ```javascript
-import { curry } from "crocks";
+import { curry } from "fp-ts/function";
 
 // ✅ Good: Curried function
 const add = curry((a, b) => a + b);
@@ -75,23 +78,23 @@ const triple = multiply(3);
 
 ### ✅ DO: Use Algebraic Data Types (ADTs)
 
-- Use `Maybe`, `Either`, `Result` from crocks for safe operations
+- Use `Option`, `Either`, `TaskEither` from fp-ts for safe operations
 - Handle errors functionally without try/catch
 
 ```javascript
-import { Maybe, Either, Result } from "crocks";
+import { Option, Either, TaskEither } from "fp-ts";
 
-// ✅ Good: Using Maybe for safe operations
-const safeDivide = (a, b) => (b === 0 ? Maybe.Nothing() : Maybe.Just(a / b));
+// ✅ Good: Using Option for safe operations
+const safeDivide = (a, b) => (b === 0 ? Option.none : Option.some(a / b));
 
 const result = safeDivide(10, 2)
   .map((x) => x * 2)
-  .option(0); // Default value if Nothing
+  .getOrElse(0); // Default value if None
 
 // ✅ Good: Using Either for error handling
 const parseNumber = (str) => {
   const num = Number(str);
-  return isNaN(num) ? Either.Left("Invalid number") : Either.Right(num);
+  return isNaN(num) ? Either.left("Invalid number") : Either.right(num);
 };
 
 // ❌ Bad: Using try/catch
@@ -110,41 +113,36 @@ const parseNumber = (str) => {
 - Prefer `chain` over nested `map` calls
 
 ```javascript
-import { Maybe } from "crocks";
+import { Option } from "fp-ts";
 
 // ✅ Good: Using chain for nested operations
-const getUser = (id) => Maybe.Just({ id, name: "John" });
-const getProfile = (user) => Maybe.Just({ ...user, age: 30 });
+const getUser = (id) => Option.some({ id, name: "John" });
+const getProfile = (user) => Option.some({ ...user, age: 30 });
 
 const result = getUser(1)
   .chain(getProfile)
   .map((profile) => profile.name)
-  .option("Unknown");
+  .getOrElse("Unknown");
 
 // ❌ Bad: Nested map calls
 const result = getUser(1)
   .map((user) => getProfile(user).map((profile) => profile.name))
-  .option("Unknown");
+  .getOrElse("Unknown");
 ```
 
 ### ✅ DO: Use Monoids for Combining Values
 
-- Use `Sum`, `Product`, `All`, `Any` from crocks
+- Use `MonoidSum`, `MonoidProduct`, `MonoidAll`, `MonoidAny` from fp-ts
 - Combine values functionally
 
 ```javascript
-import { Sum, Product, All } from "crocks";
+import { MonoidSum, MonoidProduct, MonoidAll } from "fp-ts/number";
+import { foldMap } from "fp-ts/Array";
 
 // ✅ Good: Using monoids
 const numbers = [1, 2, 3, 4, 5];
-const sum = numbers
-  .map(Sum)
-  .reduce((a, b) => a.concat(b), Sum.empty())
-  .valueOf();
-const product = numbers
-  .map(Product)
-  .reduce((a, b) => a.concat(b), Product.empty())
-  .valueOf();
+const sum = foldMap(MonoidSum)((x) => x)(numbers);
+const product = foldMap(MonoidProduct)((x) => x)(numbers);
 
 // ❌ Bad: Imperative approach
 let sum = 0;
@@ -202,17 +200,21 @@ class CodeReviewer {
 ### ✅ DO: Use Point-Free Style
 
 - Eliminate unnecessary parameters
-- Use `flip`, `constant`, `identity` from crocks
+- Use `flip`, `constant`, `identity` from fp-ts
 
 ```javascript
-import { flip, constant, identity } from "crocks";
+import { pipe } from "fp-ts/function";
+import { map, filter } from "fp-ts/Array";
+import { flip, constant, identity } from "fp-ts/function";
 
 // ✅ Good: Point-free style
-const processItems = pipe(
-  map(flip(divide)(2)),
-  filter(gt(0)),
-  map(constant("processed"))
-);
+const processItems = (items) =>
+  pipe(
+    items,
+    map((x) => x / 2),
+    filter((x) => x > 0),
+    map(() => "processed")
+  );
 
 // ❌ Bad: Verbose with unnecessary parameters
 const processItems = (items) => {
@@ -225,13 +227,16 @@ const processItems = (items) => {
 
 ### ✅ DO: Use Predicate Functions
 
-- Use `isString`, `isNumber`, `isArray` from crocks
-- Create reusable predicate functions
+- Use `isString`, `isNumber` from fp-ts
+- Create reusable predicate functions (including custom `isArray`)
 
 ```javascript
-import { isString, isNumber, and, or } from "crocks";
+import { isString } from "fp-ts/string";
+import { isNumber } from "fp-ts/number";
+import { and, or } from "fp-ts/function";
 
 // ✅ Good: Using predicates
+const isArray = (x: unknown): x is unknown[] => Array.isArray(x);
 const isValidInput = and(isString, (x) => x.length > 0);
 const isNumericString = and(isString, (x) => !isNaN(Number(x)));
 
@@ -248,16 +253,18 @@ const processInput = (input) => {
 ### ✅ DO: Use Either/Result for Error Handling
 
 - Never use try/catch in pure functions
-- Use `Result` from crocks for operations that can fail
+- Use `TaskEither` from fp-ts for operations that can fail
 
 ```javascript
-import { Result } from "crocks";
+import { TaskEither } from "fp-ts/TaskEither";
+import { tryCatch } from "fp-ts/TaskEither";
 
 // ✅ Good: Functional error handling
 const safeReadFile = (filename) =>
-  Result.try(() => fs.readFileSync(filename, "utf8"))
-    .map((content) => ({ filename, content }))
-    .mapRej((error) => `Failed to read ${filename}: ${error.message}`);
+  tryCatch(
+    () => fs.readFileSync(filename, "utf8"),
+    (error) => `Failed to read ${filename}: ${error.message}`
+  ).map((content) => ({ filename, content }));
 
 // ❌ Bad: Try/catch approach
 const readFile = (filename) => {
@@ -274,21 +281,24 @@ const readFile = (filename) => {
 
 ### ✅ DO: Use Functional Data Transformations
 
-- Use `map`, `filter`, `reduce` from crocks
+- Use `map`, `filter`, `reduce` from fp-ts
 - Prefer `reduce` over imperative loops
 
 ```javascript
-import { map, filter, reduce, pipe } from "crocks";
+import { pipe } from "fp-ts/function";
+import { map, filter, reduce } from "fp-ts/Array";
 
 // ✅ Good: Functional transformations
-const processUsers = pipe(
-  filter((user) => user.active),
-  map((user) => ({
-    ...user,
-    displayName: `${user.firstName} ${user.lastName}`,
-  })),
-  reduce((acc, user) => ({ ...acc, [user.id]: user }), {})
-);
+const processUsers = (users) =>
+  pipe(
+    users,
+    filter((user) => user.active),
+    map((user) => ({
+      ...user,
+      displayName: `${user.firstName} ${user.lastName}`,
+    })),
+    reduce({}, (acc, user) => ({ ...acc, [user.id]: user }))
+  );
 
 // ❌ Bad: Imperative approach
 const processUsers = (users) => {
@@ -334,7 +344,7 @@ class User {
 
 // ✅ Good: Plain objects or ADTs
 const createUser = (name, email) => ({ name, email });
-// Or use crocks' Pair, Tuple, etc.
+// Or use fp-ts' Pair, Tuple, etc.
 ```
 
 ### ❌ DON'T: Use Mutable State
@@ -367,7 +377,7 @@ const doubleNumbers = map(multiply(2));
 
 ## Key Libraries to Use
 
-- **crocks**: Algebraic Data Types, function utilities
+- **fp-ts**: Algebraic Data Types, function utilities
 - **ramda**: Functional programming utilities
 - **lodash/fp**: Functional version of lodash
 
