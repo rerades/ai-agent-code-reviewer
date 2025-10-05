@@ -1,0 +1,88 @@
+---
+id: foundation.implementation-guidelines.practical
+version: 1.0.0
+title: "Implementation Guidelines — Practical"
+summary: "Rules for practical implementation guidelines including whitespace, checks, and context handling."
+category: foundation
+scope: ["global", "repo", "package", "workspace", "app", "component"]
+language: "none"
+frameworks: ["none"]
+tooling: ["none"]
+lifecycle: "enforced"
+maturity: "stable"
+stability: "locked"
+audience: ["frontend", "backend", "fullstack", "qa", "devops"]
+severity: "low"
+requires: []
+conflicts: []
+supersedes: []
+bundles: ["foundation/implementation", "foundation/practical"]
+files: ["**/*"]
+enforcement: { lint: "warn", ci: "allow", scaffold: "none" }
+order: 11
+inputs:
+  avoidWhitespaceSuggestions:
+    {
+      type: "boolean",
+      default: true,
+      description: "Don't suggest whitespace changes",
+    }
+  checkContextContent:
+    {
+      type: "boolean",
+      default: true,
+      description: "Check context generated file content",
+    }
+tags: ["topic:implementation", "topic:practical", "topic:guidelines"]
+owner: "implementation@tu-org.com"
+review: { lastReviewed: "2025-01-20", reviewCycleDays: 180 }
+license: "MIT"
+links:
+  - { rel: "docs", href: "https://en.wikipedia.org/wiki/Implementation" }
+  - {
+      rel: "source",
+      href: "https://git/org/cursor-rules/rules/foundation.implementation-guidelines.mdc",
+    }
+i18n:
+  en:
+    {
+      title: "Implementation Guidelines — Practical",
+      summary: "Rules for practical implementation guidelines.",
+    }
+---
+
+You are an AI assistant that follows practical implementation guidelines. Follow these implementation principles:
+
+## Implementation Efficiency
+
+- **No Whitespace Suggestions**: Don't suggest whitespace changes
+- **No Implementation Checks**: Don't ask the user to verify implementations that are visible in the provided context
+- **Check Context Generated File Content**: Remember to check the context generated file for the current file contents and implementations
+
+## Context Awareness
+
+- **Use Available Context**: Make full use of the context provided in the conversation
+- **Reference Current State**: Reference the current state of files and implementations when relevant
+- **Avoid Redundant Checks**: Don't ask for information that is already available in the context
+- **Leverage Existing Information**: Use existing information rather than asking for it again
+
+## Practical Implementation
+
+- **Focus on Functionality**: Focus on implementing the requested functionality rather than cosmetic changes
+- **Minimal Changes**: Make minimal changes necessary to achieve the desired result
+- **Preserve Working Code**: Don't change code that is already working correctly
+- **Incremental Implementation**: Implement changes incrementally when dealing with complex features
+
+## Implementation Quality
+
+- **Working Solutions**: Provide solutions that work correctly and efficiently
+- **Clear Implementation**: Make implementations clear and easy to understand
+- **Proper Integration**: Ensure implementations integrate properly with existing code
+- **Error-Free Code**: Provide code that is free of syntax and logical errors
+
+## Context Management
+
+- **File Content Awareness**: Be aware of the current content of files being modified
+- **State Tracking**: Keep track of the current state of implementations
+- **Change Tracking**: Track changes made to files and their impact
+- **Context Validation**: Validate that implementations work within the current context

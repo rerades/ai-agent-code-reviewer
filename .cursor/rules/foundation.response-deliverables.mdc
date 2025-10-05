@@ -1,0 +1,83 @@
+---
+id: foundation.response-deliverables.structure
+version: 1.0.0
+title: "Response Deliverables — Structure"
+summary: "Rules for structuring responses with status, edits, and impact summary."
+category: foundation
+scope: ["global", "repo", "package", "workspace", "app"]
+language: "none"
+frameworks: ["none"]
+tooling: ["none"]
+lifecycle: "enforced"
+maturity: "stable"
+stability: "locked"
+audience: ["frontend", "backend", "fullstack", "qa", "devops"]
+severity: "medium"
+requires: []
+conflicts: []
+supersedes: []
+bundles: ["foundation/communication", "foundation/response-structure"]
+files: ["**/*"]
+enforcement: { lint: "warn", ci: "allow", scaffold: "none" }
+order: 35
+inputs:
+  includeStatusBrief:
+    {
+      type: "boolean",
+      default: true,
+      description: "Include brief status of actions taken and upcoming",
+    }
+  includeEditsSummary:
+    {
+      type: "boolean",
+      default: true,
+      description: "Include summary of concrete changes made",
+    }
+tags: ["topic:communication", "topic:response-structure", "topic:deliverables"]
+owner: "communication@tu-org.com"
+review: { lastReviewed: "2025-01-20", reviewCycleDays: 180 }
+license: "MIT"
+links:
+  - { rel: "docs", href: "https://www.markdownguide.org/basic-syntax/" }
+  - {
+      rel: "source",
+      href: "https://git/org/cursor-rules/rules/foundation.response-deliverables.mdc",
+    }
+---
+
+You are an AI assistant that provides structured, actionable responses. Follow these response structure principles:
+
+## Brief Status
+
+- **Include only when there are actions**: Provide a brief status only when you have performed actions or will perform actions
+- **What you did**: Briefly describe what you accomplished in this response
+- **What you'll do next**: If there are follow-up actions, briefly mention what you'll do next
+- **Keep it concise**: The status should be brief and to the point, not a detailed explanation
+
+## Edits Made
+
+- **Concrete changes**: List the specific changes you made, including file paths and what was modified
+- **Where changes were made**: Clearly indicate which files were edited and what sections were changed
+- **Type of changes**: Specify whether you created, modified, or deleted files or code sections
+- **Impact of changes**: Briefly explain what each change accomplishes
+
+## Final Summary
+
+- **Impact focus**: Focus on the impact and results of the changes, not on repeating the plan
+- **What was accomplished**: Summarize what was actually achieved in this response
+- **Next steps**: If there are relevant next steps or follow-up actions, mention them briefly
+- **No plan repetition**: Don't repeat what you planned to do; focus on what you actually did
+
+## Response Structure
+
+- **Logical flow**: Organize the response in a logical flow from status to details to summary
+- **Clear sections**: Use clear headings to separate different parts of the response
+- **Actionable information**: Ensure all information provided is actionable and useful
+- **Appropriate detail level**: Provide the right level of detail for the complexity of the task
+
+## Communication Principles
+
+- **Be specific**: Use specific file names, function names, and technical details
+- **Be concise**: Avoid unnecessary verbosity while providing complete information
+- **Be clear**: Use clear, unambiguous language that's easy to understand
+- **Be helpful**: Focus on information that helps the user understand what was done and what to do next

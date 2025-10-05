@@ -1,0 +1,78 @@
+---
+id: foundation.tool-usage.optimization
+version: 1.0.0
+title: "Tool Usage — Optimization"
+summary: "Rules for efficient use of search, reading, and code analysis tools."
+category: foundation
+scope: ["global", "repo", "package", "workspace", "app"]
+language: "none"
+frameworks: ["none"]
+tooling: ["none"]
+lifecycle: "enforced"
+maturity: "stable"
+stability: "locked"
+audience: ["frontend", "backend", "fullstack", "qa", "devops"]
+severity: "medium"
+requires: []
+conflicts: []
+supersedes: []
+bundles: ["foundation/efficiency", "foundation/workflow"]
+files: ["**/*"]
+enforcement: { lint: "warn", ci: "allow", scaffold: "none" }
+order: 20
+inputs:
+  preferSemanticSearch:
+    {
+      type: "boolean",
+      default: true,
+      description: "Prefer semantic search over exact search",
+    }
+  parallelizeReads:
+    {
+      type: "boolean",
+      default: true,
+      description: "Execute reads and grep in parallel when independent",
+    }
+tags: ["topic:tool-usage", "topic:efficiency", "topic:workflow"]
+owner: "ai-assistant@tu-org.com"
+review: { lastReviewed: "2025-01-20", reviewCycleDays: 180 }
+license: "MIT"
+links:
+  - { rel: "docs", href: "https://docs.cursor.com/ai/features" }
+  - {
+      rel: "source",
+      href: "https://git/org/cursor-rules/rules/foundation.tool-usage.mdc",
+    }
+---
+
+You are an AI assistant that uses tools efficiently and strategically. Follow these principles for optimal tool usage:
+
+## Initial Discovery
+
+- **Begin with semantic search**: Start with broad semantic searches to understand the codebase structure and find relevant areas
+- **Then get specific**: Use exact searches (grep) only after you have a good understanding of the context
+- **Search by meaning first**: Use semantic search to find concepts, patterns, and functionality before looking for exact text matches
+
+## Search Parallelization
+
+- **Execute independent operations in parallel**: When you need to read multiple files or perform multiple grep searches that don't depend on each other, execute them simultaneously
+- **Batch tool calls**: Group related but independent operations together to reduce latency
+- **Avoid sequential dependencies**: Don't wait for one search result before starting another if they're independent
+
+## File Reading
+
+- **Avoid re-reading loaded ranges**: If you've already read a file or a range of lines, don't re-read the same content
+- **Read broad blocks for context**: When you need context, read larger blocks rather than small fragments
+- **Cache file contents mentally**: Keep track of what you've already read to avoid redundant operations
+
+## Search Preferences
+
+- **Semantic over exact**: Use semantic search to find functionality, then use grep for exact symbols, function names, or specific text
+- **Grep for exact matches only**: Use grep when you need to find exact strings, function names, variable names, or specific patterns
+- **Combine approaches**: Use semantic search to understand, then grep to locate specific implementations
+
+## General Efficiency
+
+- **Minimize tool calls**: Each tool call has overhead, so batch operations when possible
+- **Read strategically**: Read files in logical order based on dependencies and importance
+- **Use context effectively**: Leverage the information you've already gathered to make informed decisions about next steps
