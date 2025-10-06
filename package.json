@@ -2,11 +2,21 @@
   "type": "module",
   "name": "ai-agent-code-reviewer",
   "version": "1.0.0",
-  "description": "",
+  "description": "code reviewer agent",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "review": "node src/code-reviewer.js test/sample.js"
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "coverage": "vitest run --coverage",
+    "build": "tsc",
+    "dev": "tsx",
+    "review": "tsx src/code-reviewer.ts -filename mocks/sample.js",
+    "review:performance": "tsx src/code-reviewer.ts -preset performance -filename mocks/sample.js",
+    "review:security": "tsx src/code-reviewer.ts -preset security -filename mocks/sample.js",
+    "review:thorough": "tsx src/code-reviewer.ts -preset thorough -filename mocks/sample.js",
+    "review:quick": "tsx src/code-reviewer.ts -preset quick -filename mocks/sample.js",
+    "review:examples": "tsx src/examples/functional-usage.ts mocks/sample.js",
+    "type-check": "tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +25,15 @@
   "dependencies": {
     "@ai-sdk/openai": "^2.0.42",
     "ai": "^5.0.60",
-    "dotenv": "^17.2.3"
+    "dotenv": "^17.2.3",
+    "fp-ts": "^2.16.11",
+    "ramda": "^0.31.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.6.2",
+    "@vitest/coverage-v8": "^2.1.4",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^2.1.4"
   }
 }
